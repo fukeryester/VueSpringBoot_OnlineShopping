@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: transparent;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #player-controls {
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #player-controls button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #player-controls button {
+            margin: 10px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        #message-box {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #ff9100;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+<div id="music-player">
+    <audio id="audio" controls></audio>
+    <div id="player-controls">
+        <div id="message-box">
+            🎵⭐来电劲爆的音乐！(注：初次进入请先点击上一首或下一首进行切歌，祝您购物愉快！😉)🎶🎈
+        </div>
+        <div class="button-container">
+            <button onclick="prevSong()">上一首</button>
+            <button onclick="togglePlayPause()">播放/暂停</button>
+            <button onclick="nextSong()">下一首</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const songs = [
+        'http://localhost:8080/wangshangshangchengB/upload/thisfar.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/ascension.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/pieces.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/reunion.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/acre.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/suddenly.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/cos.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/counter.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/theend.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/stay.mp3',
+        'http://localhost:8080/wangshangshangchengB/upload/ganhua.mp3',
+    ];
+    let currentSongIndex = 0;
+    const audio = document.getElementById('audio');
+    const playPauseButton = document.querySelector('#player-controls button:nth-child(2)');
+
+    function loadSong(index) {
+        audio.src = songs[index];
+        audio.load();
+    }
+
+    function togglePlayPause() {
+        if (audio.paused) {
+            audio.play();
+            playPauseButton.textContent = '暂停';
+        } else {
+            audio.pause();
+            playPauseButton.textContent = '播放';
+        }
+    }
+
+    function nextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        loadSong(currentSongIndex);
+        audio.play();
+        playPauseButton.textContent = '暂停';
+    }
+
+    function prevSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        loadSong(currentSongIndex);
+        audio.play();
+        playPauseButton.textContent = '暂停';
+    }
+
+    // Load the first song initially
+    loadSong(currentSongIndex);
+</script>
+</body>
+</html>
